@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -17,6 +18,7 @@ from .models import (
     )
 from .forms import SearchTeacher, SearchSubject
 
+
 def get_class_info(request):
     classes = Class.objects.all()
     context = {"classes": classes}
@@ -24,22 +26,20 @@ def get_class_info(request):
 
 
 class SearchTeacherFormView(View):
-    form_class = SearchTeacher
-    template_name = 'myschool/search_teacher.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        form = SearchTeacher()
+        return render(request, 'myschool/search_teacher.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         context = {}
-        form = self.form_class(request.POST)
+        form = SearchTeacher(request.POST)
         context.update({'form': form})
         if form.is_valid():
             query = form.cleaned_data.get("teacher")
             classes = form.save(query=query)
-            context.update({"class":classes})
-        return render(request, self.template_name, context)
+            context.update({"class": classes})
+        return render(request, 'myschool/search_teacher.html', context)
 
 
 def get_teachers_by_salaries(request):
@@ -48,30 +48,29 @@ def get_teachers_by_salaries(request):
 
     context = {}
     salary_lower_cap = 100000
-    classes =  Class.objects.filter(teacher__salary__gt=salary_lower_cap)
+    classes = Class.objects.filter(teacher__salary__gt=salary_lower_cap)
     total_salaries = classes.aggregate(Sum("teacher__salary"))
     total_students = classes.aggregate(Count("students", distinct=True))
     total_teachers = classes.aggregate(Count("teacher", distinct=True))
     context.update(
         {"total_students": total_students,
-         "total_salaries":total_salaries,
+         "total_salaries": total_salaries,
          "teachers": total_teachers,
          })
     return render(request, "myschool/teachers_salaries.html", context)
 
+
 class SearchSubjectFormView(View):
-    form_class = SearchSubject
-    template_name = 'myschool/search_subject.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        form = SearchSubject()
+        return render(request, 'myschool/search_subject.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         context = {}
-        form = self.form_class(request.POST)
+        form = SearchSubject(request.POST)
         context.update({'form': form})
         if form.is_valid():
             query = form.cleaned_data.get("subject")
             context.update(form.save(query=query))
-        return render(request, self.template_name, context)
+        return render(request, 'myschool/search_subject.html', context)
