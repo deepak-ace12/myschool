@@ -13,9 +13,8 @@ from .models import (
     ClassRoom,
     Subject,
     Relative,
-    Chapter,
     Class,
-    )
+)
 from .forms import SearchTeacher, SearchSubject
 
 
@@ -43,9 +42,7 @@ class SearchTeacherFormView(View):
 
 
 def get_teachers_by_salaries(request):
-    # @TODO- Create a form to search teachers by salary caps.
-    # For now writing a hardcoded 1 LPA
-
+   
     context = {}
     salary_lower_cap = 100000
     classes = Class.objects.filter(teacher__salary__gt=salary_lower_cap)

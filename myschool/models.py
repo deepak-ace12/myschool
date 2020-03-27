@@ -11,7 +11,7 @@ class Teacher(models.Model):
     date_of_joining = models.DateField()
     subjects = models.ManyToManyField("Subject")
     salary = models.FloatField(validators=[MinValueValidator(1.0)])
-    web_lecture = models.BooleanField(default=False) 
+    takes_web_lecture = models.BooleanField(default=False) 
 
     @property
     def full_name(self):
@@ -51,7 +51,7 @@ class ClassRoom(models.Model):
     seating_capacity = models.IntegerField(
         default=15, validators=[MinValueValidator(15)]
     )
-    web_lecture_support = models.BooleanField(default=False)
+    has_web_lecture_support = models.BooleanField(default=False)
     shape = models.CharField(max_length=20, choices=SHAPES)
 
     def __str__(self):
@@ -60,12 +60,12 @@ class ClassRoom(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=40)
-    chapters = models.ManyToManyField("Chapter")
-    duration = models.IntegerField(
+    chapters = models.PositiveIntegerField()
+    per_class_duration = models.IntegerField(
         default=30,
         validators=[MinValueValidator(10), MaxValueValidator(120)]
     )
-    total_duration = models.IntegerField()
+    total_duration_in_hours = models.PositiveIntegerField()
 
     def __str__(self):
         return self.name
@@ -86,17 +86,6 @@ class Relative(models.Model):
         return self.full_name
 
 
-    def __str__(self):
-        return f"Relative: {self.full_name}"
-
-
-class Chapter(models.Model):
-    name = models.CharField(max_length=40)
-
-    def __str__(self):
-        return f"Chapter: {self.name}"
-
-
 class ClassManager(models.Manager):
 
     def filter_teachers(self, teacher_name):
@@ -114,7 +103,9 @@ class Class(models.Model):
     objects = ClassManager()
 
     def __str__(self):
-        return f"Class: {self.subject.name} is taken by {self.teacher.full_name} in room {self.room.shape}" 
+        return "{0} being taken in {1} class by {2}".format(
+            self.subject, self.room, self.teacher
+        )
 
 
 @receiver(m2m_changed, sender=Class.students.through)
