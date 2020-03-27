@@ -1,0 +1,26 @@
+{% extends "myschool/base.html" %}
+{% block page %}
+<div>
+<table border="2">
+	<tr>
+		<th>Room</th>
+		<th>Subject Taught</th>
+		<th>Teacher Incharge</th>
+		<th>Students</th>
+	</tr>
+{% for class in classes %}
+	<tr>
+		<td>{{class.room.shape}}</td>
+		<td>{{class.subject.name}}</td>
+		<td>{{class.teacher.full_name}}</td>
+		<td>
+			{% for student in class.students.all %}
+				{{student.full_name}}
+				<br/>
+			{% endfor %}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

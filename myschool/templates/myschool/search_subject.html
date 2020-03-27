@@ -1,0 +1,22 @@
+{% extends "myschool/base.html" %}
+{% block page %}
+<form action="" method="POST">
+	{% csrf_token %}
+	{{form}}
+	<input type="submit" name="submit" value="Search">
+</form>
+{% if teachers %}
+<table border="2">
+	<tr>
+		<th>No. of Teacher</th>
+		<th>No. of Students</th>
+		<th>Total Hours </th>
+	</tr>
+	<tr>
+		<td>{{teachers.teacher__count}}</td>
+		<td>{{students.students__count}}</td>
+		<td>{{total_hours.subject__total_duration__sum}}</td>
+	</tr>
+</table>
+{% endif %}
+{% endblock %}
