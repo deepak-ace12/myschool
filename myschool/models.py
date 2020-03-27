@@ -6,24 +6,18 @@ from django.dispatch import receiver
 
 
 class Teacher(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
     date_of_joining = models.DateField()
     subjects = models.ManyToManyField("Subject")
     salary = models.FloatField(validators=[MinValueValidator(1.0)])
     takes_web_lecture = models.BooleanField(default=False) 
 
-    @property
-    def full_name(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
-
     def __str__(self):
-        return self.full_name
+        return self.name
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    name = models.CharField(max_length=40)
     date_of_joining = models.DateField()
     standard = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(12)]
@@ -32,12 +26,8 @@ class Student(models.Model):
     rank = models.PositiveIntegerField()
     point_of_contact = models.ManyToManyField("Relative")
 
-    @property
-    def full_name(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
-
     def __str__(self):
-        return self.full_name
+        return self.name
 
 
 class ClassRoom(models.Model):
@@ -59,7 +49,7 @@ class ClassRoom(models.Model):
 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=40, unique=True)
     chapters = models.PositiveIntegerField()
     per_class_duration = models.IntegerField(
         default=30,
@@ -72,18 +62,12 @@ class Subject(models.Model):
 
 
 class Relative(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
     contact_number = models.CharField(max_length=12)
     relation = models.CharField(max_length=20)
     
-    
-    @property
-    def full_name(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
-
     def __str__(self):
-        return self.full_name
+        return self.name
 
 
 class ClassManager(models.Manager):
@@ -111,7 +95,8 @@ class Class(models.Model):
 @receiver(m2m_changed, sender=Class.students.through)
 def limit_minimum_students(sender, instance, **kwargs):
     if 0 < instance.students.count() < 15:
-        raise ValidationError("You can't have less than 15 students in a class.")
+        raise ValidationError("A class must have at least 15 students")
     elif instance.students.count() > instance.room.seating_capacity:
-        raise ValidationError("The class is overcrowded. No seating left. Please kick off some students.")
+        raise ValidationError("The class is full.")
 
+    

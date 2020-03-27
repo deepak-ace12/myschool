@@ -24,5 +24,5 @@ class SearchSubject(forms.Form):
         subject = Class.objects.filter_subject(query)
         teachers = subject.aggregate(Count("teacher", distinct=True))
         students = subject.aggregate(Count("students", distinct=True))
-        total_hours = subject.aggregate(Sum("subject__total_duration"))
+        total_hours = subject.aggregate(Sum("subject__total_duration_in_hours"))
         return dict(teachers=teachers, students=students, total_hours=total_hours)
