@@ -25,7 +25,7 @@ SECRET_KEY = 'nzhy(lp64or9$%7$i!7(a656y=5o_3-43mi1qkmc-dt0&f4kbl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
