@@ -1,17 +1,18 @@
 {% extends "myschool/base.html" %}
 {% block page %}
 
-<h3>Details of Teachers with salary higher than 1 LPA </h3>
+<h3>Details of Teachers with salary higher than 1 Lac Per Month </h3>
 <table border="2">
 	<tr>
 		<th>Teachers </th>
 		<th>No of distinct students</th>
-		<th>Total Salaries </th>
+		<th>Total Salaries Per Month</th>
 	</tr>
 	<tr>
 		<td>{{teachers.teacher__count}}</td>
 		<td>{{total_students.students__count}}</td>
-		<td>{{total_salaries.teacher__salary__sum}}</td>
+
+		<td>{{ total_salaries_per_month }}</td>
 	</tr>
 </table>
 

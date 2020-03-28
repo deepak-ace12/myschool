@@ -12,10 +12,10 @@
 	<tr>
 		<td>{{class.room.shape}}</td>
 		<td>{{class.subject.name}}</td>
-		<td>{{class.teacher.full_name}}</td>
+		<td>{{class.teacher.name}}</td>
 		<td>
 			{% for student in class.students.all %}
-				{{student.full_name}}
+				{{student.name}}
 				<br/>
 			{% endfor %}
 		</td>

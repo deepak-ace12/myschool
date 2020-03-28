@@ -15,16 +15,16 @@
 	</tr>
 	{% for cls in class %}
 	<tr>
-		<td>{{cls.teacher.full_name}}</td>
+		<td>{{cls.teacher.name}}</td>
 		<td>
-			{% for sub in cls.teacher.subject.all %}
+			{% for sub in cls.teacher.subjects.all %}
 				{{sub.name}}
 				<br/>
 			{% endfor %}
 		</td>
 		<td>
 			{% for student in cls.students.all %}
-				{{student.full_name}}
+				{{student.name}}
 				<br/>
 			{% endfor %}
 		</td>

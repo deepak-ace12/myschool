@@ -73,7 +73,7 @@ class Relative(models.Model):
 class ClassManager(models.Manager):
 
     def filter_teachers(self, teacher_name):
-        return Class.objects.filter(teacher__full_name__icontains=teacher_name)
+        return Class.objects.filter(teacher__name__icontains=teacher_name)
 
     def filter_subject(self, subject):
         return Class.objects.filter(subject=subject)
@@ -99,4 +99,4 @@ def limit_minimum_students(sender, instance, **kwargs):
     elif instance.students.count() > instance.room.seating_capacity:
         raise ValidationError("The class is full.")
 
-    
+

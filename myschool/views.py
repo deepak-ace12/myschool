@@ -43,17 +43,17 @@ class SearchTeacherFormView(View):
 
 def get_teachers_by_salaries(request):
    
-    context = {}
-    salary_lower_cap = 100000
+    salary_lower_cap = 1200000
     classes = Class.objects.filter(teacher__salary__gt=salary_lower_cap)
     total_salaries = classes.aggregate(Sum("teacher__salary"))
     total_students = classes.aggregate(Count("students", distinct=True))
     total_teachers = classes.aggregate(Count("teacher", distinct=True))
-    context.update(
-        {"total_students": total_students,
-         "total_salaries": total_salaries,
-         "teachers": total_teachers,
-         })
+    total_salaries_per_month = total_salaries.get('teacher__salary__sum')/12
+    context = {
+        "total_students": total_students,
+        "total_salaries_per_month": total_salaries_per_month,
+        "teachers": total_teachers,
+    }
     return render(request, "myschool/teachers_salaries.html", context)
 
 
