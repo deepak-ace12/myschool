@@ -1,22 +1,27 @@
 {% extends "myschool/base.html" %}
-{% block page %}
+{% block body %}
 <form action="" method="POST">
 	{% csrf_token %}
-	{{form}}
-	<input type="submit" name="submit" value="Search">
+	{% include 'myschool/tweak.html' with form=form %}
+	<button type="submit" class="btn btn-primary">Search</button>
+
 </form>
 {% if teachers %}
-<table border="2">
-	<tr>
-		<th>No. of Teacher</th>
-		<th>No. of Students</th>
-		<th>Total Hours </th>
-	</tr>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>No. of Teacher</th>
+			<th>No. of Students</th>
+			<th>Total Hours </th>
+		</tr>
+	</thead>
+	<tbody>		
 	<tr>
 		<td>{{teachers.teacher__count}}</td>
 		<td>{{students.students__count}}</td>
 		<td>{{total_hours.subject__total_duration_in_hours__sum}}</td>
-	</tr>
+	  </tr>
+	</tbody>
 </table>
 {% endif %}
 {% endblock %}

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myschool',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

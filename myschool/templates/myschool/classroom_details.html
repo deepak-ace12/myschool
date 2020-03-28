@@ -1,26 +1,30 @@
 {% extends "myschool/base.html" %}
-{% block page %}
-<div>
-<table border="2">
+{% block body %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+		  <th>SR No.</th>
+		  <th>Room</th>
+			<th>Subject</th>
+			<th>Teacher</th>
+			<th>Students</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+	{% for class in classes %}
 	<tr>
-		<th>Room</th>
-		<th>Subject Taught</th>
-		<th>Teacher Incharge</th>
-		<th>Students</th>
-	</tr>
-{% for class in classes %}
-	<tr>
-		<td>{{class.room.shape}}</td>
+		<td>{{ forloop.counter }}</td>
+		<td>{{class.room.get_shape_display}}</td>
 		<td>{{class.subject.name}}</td>
 		<td>{{class.teacher.name}}</td>
 		<td>
 			{% for student in class.students.all %}
-				{{student.name}}
-				<br/>
+				{{ forloop.counter }}. {{student.name}}<br/>
 			{% endfor %}
 		</td>
-	</tr>
+	  </tr>
 {% endfor %}
+	</tbody>
 </table>
-</div>
 {% endblock %}

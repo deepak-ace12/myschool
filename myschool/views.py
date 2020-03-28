@@ -32,6 +32,7 @@ class SearchTeacherFormView(View):
 
     def post(self, request, *args, **kwargs):
         context = {}
+        print ("****************", request.POST)
         form = SearchTeacher(request.POST)
         context.update({'form': form})
         if form.is_valid():
