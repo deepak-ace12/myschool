@@ -51,7 +51,7 @@ def get_teachers_by_salaries(request):
     total_salary_per_month = total_salaries.get('salary__sum')/12
     context = {
         "total_students": total_students,
-        "total_salaries_per_month": total_salary_per_month,
+        "total_salary_per_month": total_salary_per_month,
         "teachers": teachers,
     }
     return render(request, "myschool/teachers_salaries.html", context)
