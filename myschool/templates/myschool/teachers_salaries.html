@@ -13,9 +13,9 @@
 	</thead>
 	<tbody>		
 	<tr>
-		<td>{{teachers.teacher__count}}</td>
+		<td>{{teachers.count}}</td>
 		<td>{{total_students.students__count}}</td>
-		<td>{{ total_salaries_per_month }}</td>
+		<td>{{ total_salary_per_month | floatformat:2 }}</td>
 	</tr>
 	</tbody>
 </table>

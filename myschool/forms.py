@@ -16,7 +16,9 @@ class SearchTeacher(forms.Form):
 
 class SearchSubject(forms.Form):
     subject = forms.ModelChoiceField(
-        queryset=Subject.objects.all(),
+        queryset=Subject.objects.annotate(
+            teacher_count=Count('teacher')
+        ).filter(teacher_count__gt=1),
         empty_label="Select a Subject"
     )
 

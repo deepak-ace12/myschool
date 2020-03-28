@@ -3,8 +3,8 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-		  <th>SR No.</th>
-		  <th>Room</th>
+		  	<th>SR No.</th>
+		  	<th>Class Type</th>
 			<th>Subject</th>
 			<th>Teacher</th>
 			<th>Students</th>
@@ -15,7 +15,7 @@
 	{% for class in classes %}
 	<tr>
 		<td>{{ forloop.counter }}</td>
-		<td>{{class.room.get_shape_display}}</td>
+		<td>{{class.class_room.get_shape_display}}</td>
 		<td>{{class.subject.name}}</td>
 		<td>{{class.teacher.name}}</td>
 		<td>

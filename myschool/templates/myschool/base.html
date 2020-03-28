@@ -7,7 +7,7 @@
     crossorigin="anonymous">
     <meta name="viewport", content="width=device-width, initial-scale=1.0">
     {% block head %}
-    <title>base</title>
+    <title>My School</title>
     {% endblock %}
 </head>
 <body>
@@ -25,7 +25,7 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
-            <li><a href="{% url 'myschool:class_info' %}" title="view-classroom" style="padding-left:30px">View Classroom</a></li>
+            <li><a href="{% url 'myschool:class_info' %}" title="view-classroom" style="padding-left:30px">Classrooms</a></li>
             <li><a href="{% url 'myschool:search_teacher' %}" title="search-teacher" style="padding-left:30px">Search Teacher</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">  
@@ -36,7 +36,7 @@
     </div>
   </nav>
 {% block body %}
-<h1>Base</h1>
+<h1>My School</h1>
 {% endblock %}
 </div>
 </body>

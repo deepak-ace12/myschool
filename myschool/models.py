@@ -25,6 +25,9 @@ class Student(models.Model):
     roll_no = models.PositiveIntegerField(unique=True)
     rank = models.PositiveIntegerField()
     point_of_contact = models.ManyToManyField("Relative")
+    
+    class Meta:
+        unique_together = ("name", "roll_no")
 
     def __str__(self):
         return self.name
@@ -66,6 +69,9 @@ class Relative(models.Model):
     contact_number = models.CharField(max_length=12)
     relation = models.CharField(max_length=20)
     
+    class Meta:
+        unique_together = ("name", "contact_number")
+    
     def __str__(self):
         return self.name
 
@@ -80,12 +86,12 @@ class ClassManager(models.Manager):
 
 
 class Class(models.Model):
-    room = models.ForeignKey("ClassRoom", on_delete=models.CASCADE)
+    class_room = models.ForeignKey("ClassRoom", on_delete=models.CASCADE)
     subject = models.ForeignKey("Subject", on_delete=models.CASCADE)
     teacher = models.ForeignKey("Teacher", on_delete=models.CASCADE)
     students = models.ManyToManyField("Student")
     objects = ClassManager()
-
+    
     def __str__(self):
         return "{0} being taken in {1} class by {2}".format(
             self.subject, self.room, self.teacher
@@ -96,7 +102,7 @@ class Class(models.Model):
 def limit_minimum_students(sender, instance, **kwargs):
     if 0 < instance.students.count() < 15:
         raise ValidationError("A class must have at least 15 students")
-    elif instance.students.count() > instance.room.seating_capacity:
+    elif instance.students.count() > instance.class_room.seating_capacity:
         raise ValidationError("The class is full.")
 
 

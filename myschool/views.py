@@ -15,7 +15,7 @@ from .models import (
     Relative,
     Class,
 )
-from .forms import SearchTeacher, SearchSubject
+from myschool.forms import SearchTeacher, SearchSubject
 
 
 def get_class_info(request):
@@ -32,7 +32,6 @@ class SearchTeacherFormView(View):
 
     def post(self, request, *args, **kwargs):
         context = {}
-        print ("****************", request.POST)
         form = SearchTeacher(request.POST)
         context.update({'form': form})
         if form.is_valid():
@@ -45,15 +44,15 @@ class SearchTeacherFormView(View):
 def get_teachers_by_salaries(request):
    
     salary_lower_cap = 1200000
-    classes = Class.objects.filter(teacher__salary__gt=salary_lower_cap)
-    total_salaries = classes.aggregate(Sum("teacher__salary"))
+    teachers = Teacher.objects.filter(salary__gte=salary_lower_cap)
+    total_salaries = teachers.aggregate(Sum("salary"))
+    classes = Class.objects.filter(teacher__in=teachers)
     total_students = classes.aggregate(Count("students", distinct=True))
-    total_teachers = classes.aggregate(Count("teacher", distinct=True))
-    total_salaries_per_month = total_salaries.get('teacher__salary__sum')/12
+    total_salary_per_month = total_salaries.get('salary__sum')/12
     context = {
         "total_students": total_students,
-        "total_salaries_per_month": total_salaries_per_month,
-        "teachers": total_teachers,
+        "total_salaries_per_month": total_salary_per_month,
+        "teachers": teachers,
     }
     return render(request, "myschool/teachers_salaries.html", context)
 
